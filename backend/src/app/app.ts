@@ -2,6 +2,7 @@ import express, { Express, json } from 'express';
 import { Server } from 'http';
 import { AppControllers } from 'src/app/types';
 import mongoose from 'mongoose';
+import { configService } from '@config/config.service';
 
 export class App {
   app: Express;
@@ -24,9 +25,7 @@ export class App {
   }
 
   init = async () => {
-    await mongoose.connect(
-      'mongodb+srv://jwtauth:q1w2e3r4t5@jwt-auth.qn78np4.mongodb.net/?retryWrites=true&w=majority'
-    );
+    await mongoose.connect(configService.env.MONGODB_URL);
 
     this.useMiddleware();
     this.useRoutes();
