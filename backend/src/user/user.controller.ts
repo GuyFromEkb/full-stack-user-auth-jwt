@@ -1,34 +1,48 @@
+import { BaseController } from '@common/BaseController';
 import { RequestBody } from '@common/types';
-import { NextFunction, Request, Response, Router } from 'express';
-import { BaseController } from 'src/common/BaseController';
-import { IUserPostDataResBody } from 'src/user/types';
+import { NextFunction, Response } from 'express';
+import { UserRegisterReqBody } from 'src/user/types';
+
+import { UserService } from 'src/user/user.service';
 
 export class UserController extends BaseController {
+  private authService: UserService;
+
   constructor() {
     super();
 
+    this.authService = new UserService();
+
     this.bindRoutes([
       {
-        path: '/info',
-        method: 'get',
-        func: this.getUser,
+        path: '/registration',
+        method: 'post',
+        func: this.register,
       },
       {
         path: '/login',
         method: 'post',
-        func: this.postData,
+        func: this.login,
+      },
+      {
+        path: '/logout',
+        method: 'get',
+        func: this.logout,
       },
     ]);
   }
 
-  getUser = (req: Request, res: Response, next: NextFunction) => {
-    this.ok(res, 'Вот данные пользователя!!!выфвыф ');
-  };
+  login = () => {};
 
-  postData = ({ body }: RequestBody<IUserPostDataResBody>, res: Response, next: NextFunction) => {
-    console.log('body', body.email);
-    console.log('body', body.password);
+  logout = () => {};
 
-    this.ok(res, 'данные пользователя получены');
+  register = async ({ body }: RequestBody<UserRegisterReqBody>, res: Response, next: NextFunction) => {
+    const result = await this.authService.createUser(body.email, body.password);
+
+    if (!result) {
+      return this.send(res, 477, 'Пользователь уже существует');
+    }
+
+    this.ok(res, result);
   };
 }
