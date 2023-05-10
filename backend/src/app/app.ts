@@ -4,6 +4,7 @@ import { AppControllers } from 'src/app/types';
 import mongoose from 'mongoose';
 import { configService } from '@config/config.service';
 
+
 export class App {
   app: Express;
   server: Server;
