@@ -5,8 +5,10 @@ import { UserDto } from 'src/user/dto/userDto';
 
 class TokenService {
   generateTokens = (payload: UserDto) => {
-    const accessToken = jwt.sign({ ...payload }, configService.env.JWT_ACCESS_SECRET, { expiresIn: '30m' });
-    const refreshToken = jwt.sign({ ...payload }, configService.env.JWT_REFRESH_SECRET, { expiresIn: '1d' });
+    const userObj = { ...payload };
+
+    const accessToken = jwt.sign(userObj, configService.env.JWT_ACCESS_SECRET, { expiresIn: '30m' });
+    const refreshToken = jwt.sign(userObj, configService.env.JWT_REFRESH_SECRET, { expiresIn: '1d' });
 
     return { accessToken, refreshToken };
   };
