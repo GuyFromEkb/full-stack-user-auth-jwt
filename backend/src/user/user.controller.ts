@@ -37,12 +37,15 @@ export class UserController extends BaseController {
   logout = () => {};
 
   register = async ({ body }: RequestBody<UserRegisterReqBody>, res: Response, next: NextFunction) => {
-    const result = await this.authService.createUser(body.email, body.password);
-
-    if (!result) {
-      return this.send(res, 477, 'Пользователь уже существует');
+    try {
+      const result = await this.authService.createUser(body.email, body.password);
+      res.cookie('refreshToken', result?.token.refreshToken, {
+        httpOnly: true,
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+      });
+      this.ok(res, result);
+    } catch (error: any) {
+      console.log('EROR!', error?.message);
     }
-
-    this.ok(res, result);
   };
 }

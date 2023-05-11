@@ -3,7 +3,7 @@ import { Server } from 'http';
 import { AppControllers } from 'src/app/types';
 import mongoose from 'mongoose';
 import { configService } from '@config/config.service';
-
+import cookieParser from 'cookie-parser';
 
 export class App {
   app: Express;
@@ -19,6 +19,7 @@ export class App {
 
   useMiddleware() {
     this.app.use(json());
+    this.app.use(cookieParser());
   }
 
   useRoutes() {

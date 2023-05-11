@@ -8,7 +8,7 @@ export class UserService {
     const existedUser = await User.findOne({ email: email });
 
     if (existedUser) {
-      return null;
+      throw new Error('Пользователь уже существует');
     }
 
     const user = await User.create({
