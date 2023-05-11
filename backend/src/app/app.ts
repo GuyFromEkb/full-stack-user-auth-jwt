@@ -4,6 +4,7 @@ import { AppControllers } from 'src/app/types';
 import mongoose from 'mongoose';
 import { configService } from '@config/config.service';
 import cookieParser from 'cookie-parser';
+import { logger } from '@common/Logger';
 
 export class App {
   app: Express;
@@ -32,6 +33,6 @@ export class App {
     this.useMiddleware();
     this.useRoutes();
     this.server = this.app.listen(this.port);
-    console.log(`Сервер запущен на http://localhost:${this.port}`);
+    logger.info(`Сервер запущен на http://localhost:${this.port}`);
   };
 }
