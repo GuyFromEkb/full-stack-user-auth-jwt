@@ -4,7 +4,8 @@
   "description": "User Auth Jwt Backend",
   "main": "src/main.ts",
   "scripts": {
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json"
   },
   "author": "GuyFromEkb",
   "license": "ISC",
@@ -33,6 +34,7 @@
     "nodemon": "^2.0.22",
     "prettier": "2.8.8",
     "ts-node": "^10.9.1",
+    "tsc-alias": "^1.8.6",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.0.4"
   }
