@@ -6,8 +6,7 @@ import { UserService } from 'src/user/user.service';
 import { userBodyValidation } from 'src/user/validation';
 import { requestValidate } from '@common/utils';
 import { configService } from '@config/config.service';
-import { HTTPError } from 'src/errors/httpError.class';
-import { tokenService } from 'src/token';
+import { userAuthorized } from '@common/middleWares';
 
 export class UserController extends BaseController {
   private userService: UserService;
@@ -43,7 +42,7 @@ export class UserController extends BaseController {
       {
         path: '/all',
         method: 'get',
-        middleWares: [usersMiddleWare],
+        middleWares: [userAuthorized],
         func: this.allUsers,
       },
     ]);
@@ -116,29 +115,3 @@ export class UserController extends BaseController {
     }
   };
 }
-
-const usersMiddleWare = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const authorizationHeader = req.headers.authorization;
-
-    if (!authorizationHeader) {
-      throw HTTPError.unAuthorized();
-    }
-
-    const accessToken = authorizationHeader.split(' ')?.[1];
-
-    if (!accessToken) {
-      throw HTTPError.unAuthorized();
-    }
-
-    const userData = tokenService.validateAccessToken(accessToken);
-
-    if (!userData) {
-      throw HTTPError.unAuthorized();
-    }
-
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
