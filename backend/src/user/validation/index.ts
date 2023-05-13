@@ -1,0 +1,1 @@
+export { registerBodyValidation } from './registration';

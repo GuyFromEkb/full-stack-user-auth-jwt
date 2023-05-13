@@ -1,10 +1,10 @@
 import { BaseController } from '@common/BaseController';
-
 import { RequestBody } from '@common/types';
 import { NextFunction, Response, Request } from 'express';
 import { UserRegisterReqBody } from 'src/user/types';
-
 import { UserService } from 'src/user/user.service';
+import { registerBodyValidation } from 'src/user/validation';
+import { requestValidate } from '@common/utils';
 
 export class UserController extends BaseController {
   private authService: UserService;
@@ -18,6 +18,7 @@ export class UserController extends BaseController {
       {
         path: '/registration',
         method: 'post',
+        middleWares: [...registerBodyValidation],
         func: this.register,
       },
       {
@@ -42,8 +43,11 @@ export class UserController extends BaseController {
 
   logout = () => {};
 
-  register = async ({ body }: RequestBody<UserRegisterReqBody>, res: Response, next: NextFunction) => {
+  register = async (req: RequestBody<UserRegisterReqBody>, res: Response, next: NextFunction) => {
     try {
+      requestValidate(req);
+
+      const { body } = req;
       const result = await this.authService.createUser(body.email, body.password);
 
       res.cookie('refreshToken', result?.token.refreshToken, {
