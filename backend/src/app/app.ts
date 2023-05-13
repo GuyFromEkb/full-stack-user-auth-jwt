@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import { configService } from '@config/config.service';
 import cookieParser from 'cookie-parser';
 import { logger } from '@common/Logger';
+import cors from 'cors';
 
 export class App {
   app: Express;
@@ -23,6 +24,7 @@ export class App {
   useMiddleware = () => {
     this.app.use(json());
     this.app.use(cookieParser());
+    this.app.use(cors());
   };
 
   useRoutes = () => {
