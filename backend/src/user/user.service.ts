@@ -4,13 +4,14 @@ import { UserDto } from 'src/user/dto/userDto';
 import { User } from 'src/user/user.model';
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
+import { HTTPError } from 'src/errors/http-error.class';
 
 export class UserService {
   createUser = async (email: string, password: string) => {
     const existedUser = await User.findOne({ email: email });
 
     if (existedUser) {
-      throw new Error('Пользователь уже существует');
+      throw HTTPError.badRequest('Пользователь уже существует');
     }
 
     const hashPassword = await bcrypt.hash(password, 3);
@@ -49,7 +50,7 @@ export class UserService {
     );
 
     if (!user) {
-      throw new Error('Пользователя с данной ссылкой активации не обнаружен');
+      throw HTTPError.badRequest('Пользователя с данной ссылкой активации не обнаружен');
     }
 
     const userDto = new UserDto({ _id: String(user._id), email: user.email, isActivate: user.isActivate });

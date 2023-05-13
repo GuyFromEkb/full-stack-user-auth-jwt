@@ -52,8 +52,8 @@ export class UserController extends BaseController {
       });
 
       this.ok(res, result);
-    } catch (error: any) {
-      console.log('EROR!', error?.message);
+    } catch (error) {
+      next(error);
     }
   };
 
@@ -63,8 +63,8 @@ export class UserController extends BaseController {
     try {
       const result = await this.authService.activateUser(params.activateLink);
       this.ok(res, result);
-    } catch (error: any) {
-      console.log('EROR!', error?.message);
+    } catch (error) {
+      next(error);
     }
   };
 }
