@@ -6,5 +6,8 @@
   "printWidth": 110,
   "bracketSpacing": true,
   "arrowParens": "always",
-  "endOfLine": "auto"
+  "endOfLine": "auto",
+  "importOrder": ["<THIRD_PARTY_MODULES>", "^(@(.*)|src)/(.*)$", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }

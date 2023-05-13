@@ -1,10 +1,11 @@
+import bcrypt from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid';
+
 import { emailServices } from '@common/services';
+import { HTTPError } from 'src/errors/httpError.class';
 import { tokenService } from 'src/token';
 import { UserDto } from 'src/user/dto/userDto';
 import { userModel } from 'src/user/user.model';
-import bcrypt from 'bcrypt';
-import { v4 as uuidv4 } from 'uuid';
-import { HTTPError } from 'src/errors/httpError.class';
 
 export class UserService {
   logout = async (refreshToken?: string) => {

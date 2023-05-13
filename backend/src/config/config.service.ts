@@ -1,5 +1,6 @@
-import { logger } from '@common/Logger';
 import { EnvType, load } from 'ts-dotenv';
+
+import { logger } from '@common/Logger';
 
 type Env = EnvType<typeof schema>;
 

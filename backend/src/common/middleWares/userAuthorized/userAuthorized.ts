@@ -1,4 +1,5 @@
-import { NextFunction, Response, Request } from 'express';
+import { NextFunction, Request, Response } from 'express';
+
 import { HTTPError } from 'src/errors/httpError.class';
 import { tokenService } from 'src/token';
 

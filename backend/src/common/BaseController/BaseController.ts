@@ -1,4 +1,5 @@
-import { Router, Response } from 'express';
+import { Response, Router } from 'express';
+
 import { IControllerRoute } from './types';
 
 export abstract class BaseController {

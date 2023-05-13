@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+
 import { ITokenModel } from 'src/token';
 
 const tokenSchema = new Schema<ITokenModel>({

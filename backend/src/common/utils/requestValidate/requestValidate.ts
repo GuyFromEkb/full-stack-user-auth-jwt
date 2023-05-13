@@ -1,5 +1,6 @@
 import { Request } from 'express';
 import { validationResult } from 'express-validator';
+
 import { HTTPError } from 'src/errors/httpError.class';
 
 export const requestValidate = (req: Request) => {

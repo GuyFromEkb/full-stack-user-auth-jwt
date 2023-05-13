@@ -1,5 +1,6 @@
-import { configService } from '@config/config.service';
 import jwt from 'jsonwebtoken';
+
+import { configService } from '@config/config.service';
 import { tokenModel } from 'src/token';
 import { UserDto } from 'src/user/dto/userDto';
 

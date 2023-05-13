@@ -1,6 +1,7 @@
+import { TestAccount, Transporter, createTestAccount, createTransport, getTestMessageUrl } from 'nodemailer';
+
 import { logger } from '@common/Logger';
 import { configService } from '@config/config.service';
-import { TestAccount, Transporter, createTestAccount, createTransport, getTestMessageUrl } from 'nodemailer';
 
 class EmailServices {
   private testAccount: TestAccount;

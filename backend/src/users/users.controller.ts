@@ -1,5 +1,6 @@
+import { NextFunction, Request, Response } from 'express';
+
 import { BaseController } from '@common/BaseController';
-import { NextFunction, Response, Request } from 'express';
 import { userAuthorized } from '@common/middleWares';
 import { UsersService } from 'src/users/users.service';
 

@@ -1,11 +1,12 @@
+import { NextFunction, Request, Response } from 'express';
+
 import { BaseController } from '@common/BaseController';
 import { RequestBody } from '@common/types';
-import { NextFunction, Response, Request } from 'express';
+import { requestValidate } from '@common/utils';
+import { configService } from '@config/config.service';
 import { UserRegisterReqBody } from 'src/user/types';
 import { UserService } from 'src/user/user.service';
 import { userBodyValidation } from 'src/user/validation';
-import { requestValidate } from '@common/utils';
-import { configService } from '@config/config.service';
 
 export class UserController extends BaseController {
   private userService: UserService;

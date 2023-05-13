@@ -1,11 +1,12 @@
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import express, { Express, json } from 'express';
 import { Server } from 'http';
-import { AppControllers, AppFilters } from 'src/app/types';
 import mongoose from 'mongoose';
-import { configService } from '@config/config.service';
-import cookieParser from 'cookie-parser';
+
 import { logger } from '@common/Logger';
-import cors from 'cors';
+import { configService } from '@config/config.service';
+import { AppControllers, AppFilters } from 'src/app/types';
 
 export class App {
   app: Express;
