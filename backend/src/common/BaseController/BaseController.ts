@@ -18,8 +18,10 @@ export abstract class BaseController {
   }
 
   protected bindRoutes = (route: IControllerRoute[]) => {
-    route.forEach(({ path, method, func }) => {
-      this._route[method](path, func);
+    route.forEach(({ path, method, func, middleWares }) => {
+      const pipelines = middleWares ? [...middleWares, func] : func;
+
+      this._route[method](path, pipelines);
     });
   };
 
