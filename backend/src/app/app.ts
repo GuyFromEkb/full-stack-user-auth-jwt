@@ -29,6 +29,7 @@ export class App {
 
   useRoutes = () => {
     this.app.use('/user', this.controllers.user);
+    this.app.use('/users', this.controllers.users);
   };
 
   useExceptionFilter = () => {

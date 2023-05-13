@@ -95,12 +95,4 @@ export class UserService {
 
     return userDto;
   };
-
-  getAllUsers = async () => {
-    const users = await userModel.find();
-
-    return users.map(
-      (user) => new UserDto({ _id: String(user._id), email: user.email, isActivate: user.isActivate })
-    );
-  };
 }

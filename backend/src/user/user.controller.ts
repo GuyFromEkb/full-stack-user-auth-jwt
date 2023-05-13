@@ -6,7 +6,6 @@ import { UserService } from 'src/user/user.service';
 import { userBodyValidation } from 'src/user/validation';
 import { requestValidate } from '@common/utils';
 import { configService } from '@config/config.service';
-import { userAuthorized } from '@common/middleWares';
 
 export class UserController extends BaseController {
   private userService: UserService;
@@ -38,12 +37,6 @@ export class UserController extends BaseController {
         path: '/activate/:activateLink',
         method: 'get',
         func: this.activate,
-      },
-      {
-        path: '/all',
-        method: 'get',
-        middleWares: [userAuthorized],
-        func: this.allUsers,
       },
     ]);
   }
@@ -101,15 +94,6 @@ export class UserController extends BaseController {
     try {
       const result = await this.userService.activateUser(params.activateLink);
       if (result) res.redirect(configService.env.APP_URL);
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  allUsers = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const users = await this.userService.getAllUsers();
-      this.ok(res, { users });
     } catch (error) {
       next(error);
     }
