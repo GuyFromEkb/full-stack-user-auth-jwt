@@ -7,11 +7,35 @@ import { v4 as uuidv4 } from 'uuid';
 import { HTTPError } from 'src/errors/httpError.class';
 
 export class UserService {
+  login = async (email: string, password: string) => {
+    const existedUser = await User.findOne({ email });
+    if (!existedUser) {
+      throw HTTPError.badRequest('Пользователь c таким email не найден');
+    }
+    const isCorrectPassword = await bcrypt.compare(password, existedUser.password);
+
+    if (!isCorrectPassword) {
+      throw HTTPError.badRequest('Неверный пароль');
+    }
+
+    const userDto = new UserDto({
+      _id: String(existedUser._id),
+      email: existedUser.email,
+      isActivate: existedUser.isActivate,
+    });
+
+    const token = tokenService.generateTokens(userDto);
+
+    await tokenService.saveToken(userDto.id, token.refreshToken);
+
+    return { token, user: userDto };
+  };
+
   createUser = async (email: string, password: string) => {
     const existedUser = await User.findOne({ email: email });
 
     if (existedUser) {
-      throw HTTPError.badRequest('Пользователь уже существует');
+      throw HTTPError.badRequest('Пользователь c таким email уже существует');
     }
 
     const hashPassword = await bcrypt.hash(password, 3);

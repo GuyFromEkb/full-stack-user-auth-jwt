@@ -1,1 +1,1 @@
-export { registerBodyValidation } from './registration';
+export { userBodyValidation } from './registration';

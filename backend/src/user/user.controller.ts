@@ -3,28 +3,29 @@ import { RequestBody } from '@common/types';
 import { NextFunction, Response, Request } from 'express';
 import { UserRegisterReqBody } from 'src/user/types';
 import { UserService } from 'src/user/user.service';
-import { registerBodyValidation } from 'src/user/validation';
+import { userBodyValidation } from 'src/user/validation';
 import { requestValidate } from '@common/utils';
 import { configService } from '@config/config.service';
 
 export class UserController extends BaseController {
-  private authService: UserService;
+  private userService: UserService;
 
   constructor() {
     super();
 
-    this.authService = new UserService();
+    this.userService = new UserService();
 
     this.bindRoutes([
       {
         path: '/registration',
         method: 'post',
-        middleWares: [...registerBodyValidation],
+        middleWares: [...userBodyValidation],
         func: this.register,
       },
       {
         path: '/login',
         method: 'post',
+        middleWares: [...userBodyValidation],
         func: this.login,
       },
       {
@@ -40,7 +41,21 @@ export class UserController extends BaseController {
     ]);
   }
 
-  login = () => {};
+  login = async (req: RequestBody<UserRegisterReqBody>, res: Response, next: NextFunction) => {
+    try {
+      requestValidate(req);
+      const result = await this.userService.login(req.body.email, req.body.password);
+
+      res.cookie('refreshToken', result?.token.refreshToken, {
+        httpOnly: true,
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+      });
+
+      this.ok(res, result);
+    } catch (error) {
+      next(error);
+    }
+  };
 
   logout = () => {};
 
@@ -48,7 +63,7 @@ export class UserController extends BaseController {
     try {
       requestValidate(req);
 
-      const result = await this.authService.createUser(req.body.email, req.body.password);
+      const result = await this.userService.createUser(req.body.email, req.body.password);
 
       res.cookie('refreshToken', result?.token.refreshToken, {
         httpOnly: true,
@@ -65,7 +80,7 @@ export class UserController extends BaseController {
     const params = req.params as { activateLink: string };
 
     try {
-      const result = await this.authService.activateUser(params.activateLink);
+      const result = await this.userService.activateUser(params.activateLink);
       if (result) res.redirect(configService.env.APP_URL);
     } catch (error) {
       next(error);

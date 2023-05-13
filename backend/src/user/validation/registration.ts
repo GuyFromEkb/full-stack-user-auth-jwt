@@ -1,7 +1,7 @@
 import { ControllerMiddleWares } from '@common/BaseController/types';
 import { body } from 'express-validator';
 
-export const registerBodyValidation: ControllerMiddleWares = [
+export const userBodyValidation: ControllerMiddleWares = [
   body('email', 'должен быть Email').isEmail(),
   body('password')
     .isString()
