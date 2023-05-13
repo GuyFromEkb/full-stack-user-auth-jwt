@@ -57,7 +57,19 @@ export class UserController extends BaseController {
     }
   };
 
-  logout = () => {};
+  logout = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { refreshToken } = req.cookies as { refreshToken?: string };
+
+      const result = await this.userService.logout(refreshToken);
+
+      res.clearCookie('refreshToken');
+
+      this.ok(res, result);
+    } catch (error) {
+      next(error);
+    }
+  };
 
   register = async (req: RequestBody<UserRegisterReqBody>, res: Response, next: NextFunction) => {
     try {

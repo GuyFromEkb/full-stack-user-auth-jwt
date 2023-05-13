@@ -7,6 +7,20 @@ import { v4 as uuidv4 } from 'uuid';
 import { HTTPError } from 'src/errors/httpError.class';
 
 export class UserService {
+  logout = async (refreshToken?: string) => {
+    if (!refreshToken) {
+      throw HTTPError.badRequest('refreshToken в cookies  не найден');
+    }
+
+    const result = await tokenService.removeToken(refreshToken);
+
+    if (!result) {
+      throw HTTPError.badRequest('refreshToken в cookies  не найден');
+    }
+
+    return result;
+  };
+
   login = async (email: string, password: string) => {
     const existedUser = await User.findOne({ email });
     if (!existedUser) {

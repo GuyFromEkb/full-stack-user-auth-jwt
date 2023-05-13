@@ -23,6 +23,11 @@ class TokenService {
 
     return tokenModel.create({ userId, refreshToken });
   };
+
+  removeToken = async (refreshToken: string) => {
+    const tokenData = await tokenModel.findOneAndRemove({ refreshToken });
+    return tokenData;
+  };
 }
 
 export const tokenService = new TokenService();
