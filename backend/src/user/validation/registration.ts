@@ -3,5 +3,8 @@ import { body } from 'express-validator';
 
 export const registerBodyValidation: ControllerMiddleWares = [
   body('email', 'должен быть Email').isEmail(),
-  body('password').isLength({ min: 6, max: 12 }).withMessage('Минимальная длинна 6, максимальная 12'),
+  body('password')
+    .isString()
+    .isLength({ min: 6, max: 12 })
+    .withMessage('Минимальная длинна 6, максимальная 12'),
 ];

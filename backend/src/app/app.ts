@@ -16,7 +16,7 @@ export class App {
 
   constructor(config: { controllers: AppControllers; filters: AppFilters }) {
     this.app = express();
-    this.port = 7777;
+    this.port = configService.env.SERVER_PORT;
     this.controllers = config.controllers;
     this.filters = config.filters;
   }

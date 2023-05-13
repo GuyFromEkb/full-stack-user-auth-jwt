@@ -5,6 +5,7 @@ import { UserRegisterReqBody } from 'src/user/types';
 import { UserService } from 'src/user/user.service';
 import { registerBodyValidation } from 'src/user/validation';
 import { requestValidate } from '@common/utils';
+import { configService } from '@config/config.service';
 
 export class UserController extends BaseController {
   private authService: UserService;
@@ -47,8 +48,7 @@ export class UserController extends BaseController {
     try {
       requestValidate(req);
 
-      const { body } = req;
-      const result = await this.authService.createUser(body.email, body.password);
+      const result = await this.authService.createUser(req.body.email, req.body.password);
 
       res.cookie('refreshToken', result?.token.refreshToken, {
         httpOnly: true,
@@ -66,7 +66,7 @@ export class UserController extends BaseController {
 
     try {
       const result = await this.authService.activateUser(params.activateLink);
-      this.ok(res, result);
+      if (result) res.redirect(configService.env.APP_URL);
     } catch (error) {
       next(error);
     }

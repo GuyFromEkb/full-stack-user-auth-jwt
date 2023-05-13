@@ -1,4 +1,5 @@
 import { logger } from '@common/Logger';
+import { configService } from '@config/config.service';
 import { TestAccount, Transporter, createTestAccount, createTransport, getTestMessageUrl } from 'nodemailer';
 
 class EmailServices {
@@ -31,10 +32,10 @@ class EmailServices {
       to,
       subject: 'Hello ✔',
       text: '',
-      html: `<a href="http://localhost:7777/user/activate/${link}">Подтвердить регистрацию</a>`,
+      html: `<a href="${configService.env.SERVER_URL}/user/activate/${link}">Подтвердить регистрацию</a>`,
     });
 
-    logger.info('Preview URL: %s', getTestMessageUrl(info));
+    logger.info('Email Preview URL: %s', getTestMessageUrl(info));
   };
 }
 

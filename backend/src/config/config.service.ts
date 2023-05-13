@@ -7,6 +7,9 @@ const schema = {
   MONGODB_URL: String,
   JWT_ACCESS_SECRET: String,
   JWT_REFRESH_SECRET: String,
+  SERVER_PORT: Number,
+  SERVER_URL: String,
+  APP_URL: String,
 };
 
 class ConfigService {
