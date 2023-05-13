@@ -1,7 +1,7 @@
 import { emailServices } from '@common/services';
 import { tokenService } from 'src/token';
 import { UserDto } from 'src/user/dto/userDto';
-import { User } from 'src/user/user.model';
+import { userModel } from 'src/user/user.model';
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import { HTTPError } from 'src/errors/httpError.class';
@@ -22,7 +22,7 @@ export class UserService {
   };
 
   login = async (email: string, password: string) => {
-    const existedUser = await User.findOne({ email });
+    const existedUser = await userModel.findOne({ email });
     if (!existedUser) {
       throw HTTPError.badRequest('Пользователь c таким email не найден');
     }
@@ -46,7 +46,7 @@ export class UserService {
   };
 
   createUser = async (email: string, password: string) => {
-    const existedUser = await User.findOne({ email: email });
+    const existedUser = await userModel.findOne({ email: email });
 
     if (existedUser) {
       throw HTTPError.badRequest('Пользователь c таким email уже существует');
@@ -55,7 +55,7 @@ export class UserService {
     const hashPassword = await bcrypt.hash(password, 3);
     const activateLink = uuidv4();
 
-    const user = await User.create({
+    const user = await userModel.create({
       email: email,
       password: hashPassword,
       isActivate: false,
@@ -74,7 +74,7 @@ export class UserService {
   };
 
   activateUser = async (activateLink: string) => {
-    const user = await User.findOneAndUpdate(
+    const user = await userModel.findOneAndUpdate(
       { activateLink },
       {
         isActivate: true,
@@ -94,5 +94,13 @@ export class UserService {
     const userDto = new UserDto({ _id: String(user._id), email: user.email, isActivate: user.isActivate });
 
     return userDto;
+  };
+
+  getAllUsers = async () => {
+    const users = await userModel.find();
+
+    return users.map(
+      (user) => new UserDto({ _id: String(user._id), email: user.email, isActivate: user.isActivate })
+    );
   };
 }

@@ -7,7 +7,7 @@ class TokenService {
   generateTokens = (payload: UserDto) => {
     const userObj = { ...payload };
 
-    const accessToken = jwt.sign(userObj, configService.env.JWT_ACCESS_SECRET, { expiresIn: '30m' });
+    const accessToken = jwt.sign(userObj, configService.env.JWT_ACCESS_SECRET, { expiresIn: '30s' });
     const refreshToken = jwt.sign(userObj, configService.env.JWT_REFRESH_SECRET, { expiresIn: '1d' });
 
     return { accessToken, refreshToken };
@@ -27,6 +27,15 @@ class TokenService {
   removeToken = async (refreshToken: string) => {
     const tokenData = await tokenModel.findOneAndRemove({ refreshToken });
     return tokenData;
+  };
+
+  validateAccessToken = (accessToken: string) => {
+    try {
+      const userData = jwt.verify(accessToken, configService.env.JWT_ACCESS_SECRET);
+      return userData;
+    } catch (error) {
+      return null;
+    }
   };
 }
 

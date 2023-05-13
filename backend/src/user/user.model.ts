@@ -8,4 +8,4 @@ const userSchema = new Schema<IUser>({
   activateLink: { type: String },
 });
 
-export const User = model<IUser>('User', userSchema);
+export const userModel = model<IUser>('User', userSchema);

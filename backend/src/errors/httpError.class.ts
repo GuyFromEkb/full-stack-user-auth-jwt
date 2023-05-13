@@ -10,4 +10,8 @@ export class HTTPError extends Error {
   static unValidated = (errors?: unknown[]) => {
     return new HTTPError('Неверно введённые данные', 422, errors);
   };
+
+  static unAuthorized = (errors?: unknown[]) => {
+    return new HTTPError('Пользователь не авторизован', 401, errors);
+  };
 }

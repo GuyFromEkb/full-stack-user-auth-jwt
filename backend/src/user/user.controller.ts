@@ -6,6 +6,8 @@ import { UserService } from 'src/user/user.service';
 import { userBodyValidation } from 'src/user/validation';
 import { requestValidate } from '@common/utils';
 import { configService } from '@config/config.service';
+import { HTTPError } from 'src/errors/httpError.class';
+import { tokenService } from 'src/token';
 
 export class UserController extends BaseController {
   private userService: UserService;
@@ -37,6 +39,12 @@ export class UserController extends BaseController {
         path: '/activate/:activateLink',
         method: 'get',
         func: this.activate,
+      },
+      {
+        path: '/all',
+        method: 'get',
+        middleWares: [usersMiddleWare],
+        func: this.allUsers,
       },
     ]);
   }
@@ -98,4 +106,39 @@ export class UserController extends BaseController {
       next(error);
     }
   };
+
+  allUsers = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const users = await this.userService.getAllUsers();
+      this.ok(res, { users });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
+
+const usersMiddleWare = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const authorizationHeader = req.headers.authorization;
+
+    if (!authorizationHeader) {
+      throw HTTPError.unAuthorized();
+    }
+
+    const accessToken = authorizationHeader.split(' ')?.[1];
+
+    if (!accessToken) {
+      throw HTTPError.unAuthorized();
+    }
+
+    const userData = tokenService.validateAccessToken(accessToken);
+
+    if (!userData) {
+      throw HTTPError.unAuthorized();
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
