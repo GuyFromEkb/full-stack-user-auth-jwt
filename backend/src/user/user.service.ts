@@ -4,7 +4,7 @@ import { UserDto } from 'src/user/dto/userDto';
 import { User } from 'src/user/user.model';
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
-import { HTTPError } from 'src/errors/http-error.class';
+import { HTTPError } from 'src/errors/httpError.class';
 
 export class UserService {
   createUser = async (email: string, password: string) => {
