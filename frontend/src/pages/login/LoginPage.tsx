@@ -10,6 +10,7 @@ export const LoginPage: FC = observer(() => {
   return (
     <Container maxWidth="sm">
       <Box
+        component="form"
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -17,7 +18,7 @@ export const LoginPage: FC = observer(() => {
           mt: 4,
         }}
       >
-        <TextField label="Email" variant="outlined" />
+        <TextField error={false} helperText={undefined} label="Email" variant="outlined" />
         <TextField label="Password" variant="outlined" />
         <Button onClick={login} variant="outlined">
           Войти
