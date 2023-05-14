@@ -2,8 +2,16 @@ import { FC } from "react"
 import Button from "@mui/material/Button"
 import { Box, AppBar, Toolbar, IconButton, Typography, TextField, Container } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
+import { observer } from "mobx-react-lite"
+import { rootStore } from "src/store/rootStore"
 
-export const App: FC = () => {
+export const App: FC = observer(() => {
+  const login = () => {
+    rootStore.login("321321321@yandex.ru", "321321123")
+  }
+  const register = () => {
+    rootStore.register("123456@ya21312n123.ru", "12345678")
+  }
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
@@ -20,6 +28,7 @@ export const App: FC = () => {
         </AppBar>
       </Box>
       <Container maxWidth="sm">
+        <Typography variant="h4">{rootStore.number}</Typography>
         <Box
           sx={{
             display: "flex",
@@ -30,9 +39,14 @@ export const App: FC = () => {
         >
           <TextField label="Email" variant="outlined" />
           <TextField label="Password" variant="outlined" />
-          <Button variant="outlined">Login</Button>
+          <Button onClick={login} variant="outlined">
+            Login
+          </Button>
+          <Button onClick={register} variant="outlined">
+            Register
+          </Button>
         </Box>
       </Container>
     </div>
   )
-}
+})
