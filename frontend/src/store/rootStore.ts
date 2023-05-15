@@ -1,32 +1,12 @@
 import { makeAutoObservable } from "mobx"
-import { API } from "src/api/axiosInstance"
+import { AuthStore } from "src/store/authStore/authStore"
 
-export class RootStore {
-  number = 0
+export class AppStore {
+  auth = new AuthStore()
 
   constructor() {
     makeAutoObservable(this)
   }
-
-  incrementNumber = () => {
-    this.number = this.number + 1
-  }
-
-  login = async (email: string, password: string) => {
-    const res = await API.post("user/login", {
-      email,
-      password,
-    })
-    console.log("RES", res)
-  }
-
-  register = async (email: string, password: string) => {
-    const res = await API.post("user/registration", {
-      email,
-      password,
-    })
-    console.log("RES", res)
-  }
 }
 
-export const rootStore = new RootStore()
+export const appStore = new AppStore()
