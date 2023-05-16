@@ -19,6 +19,7 @@ export const userAuthorized = async (req: Request, _res: Response, next: NextFun
       throw HTTPError.unAuthorized();
     }
 
+    req.body.authUserData = userData;
     next();
   } catch (error) {
     next(error);

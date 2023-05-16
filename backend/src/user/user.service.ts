@@ -96,4 +96,16 @@ export class UserService {
 
     return userDto;
   };
+
+  getUserById = async (id: string) => {
+    console.log('ZAWEL');
+    const user = await userModel.findById(id);
+    console.log('userFind', user);
+    if (!user) {
+      throw HTTPError.badRequest('Пользователя с данным id не обнаружен ');
+    }
+    const userDto = new UserDto({ _id: String(user._id), email: user.email, isActivate: user.isActivate });
+
+    return userDto;
+  };
 }

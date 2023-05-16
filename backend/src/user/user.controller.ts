@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { BaseController } from '@common/BaseController';
-import { RequestBody } from '@common/types';
+import { userAuthorized } from '@common/middleWares';
+import { AuthRequest, RequestBody } from '@common/types';
 import { requestValidate } from '@common/utils';
 import { configService } from '@config/config.service';
 import { UserRegisterReqBody } from 'src/user/types';
@@ -39,8 +40,23 @@ export class UserController extends BaseController {
         method: 'get',
         func: this.activate,
       },
+      {
+        path: '/getOwnUser',
+        method: 'get',
+        middleWares: [userAuthorized],
+        func: this.sendUserByToken,
+      },
     ]);
   }
+
+  sendUserByToken = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    try {
+      const user = await this.userService.getUserById(req.body.authUserData.id);
+      this.ok(res, user);
+    } catch (error) {
+      next(error);
+    }
+  };
 
   login = async (req: RequestBody<UserRegisterReqBody>, res: Response, next: NextFunction) => {
     try {
