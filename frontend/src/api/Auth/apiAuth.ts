@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios"
-import { IAuthResponse } from "src/api/Auth/types"
+import { IAuthResponse, IUser } from "src/api/Auth/types"
 
 export class ApiAuth {
   constructor(readonly api: AxiosInstance) {}
@@ -10,6 +10,10 @@ export class ApiAuth {
 
   postLogin = (body: { email: string; password: string }) => {
     return this.api.post<IAuthResponse>("/user/login", body)
+  }
+
+  getOwnUser = () => {
+    return this.api.get<IUser>("/user/getOwnUser")
   }
 
   getLogout = () => {

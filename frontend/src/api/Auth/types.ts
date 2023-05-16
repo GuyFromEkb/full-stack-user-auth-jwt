@@ -1,14 +1,14 @@
 export interface IAuthResponse {
-  token: Token
-  user: User
+  token: IToken
+  user: IUser
 }
 
-interface Token {
+interface IToken {
   accessToken: string
   refreshToken: string
 }
 
-interface User {
+export interface IUser {
   email: string
   id: string
   isActivated: boolean

@@ -1,8 +1,11 @@
-import { makeAutoObservable } from "mobx"
+import { makeAutoObservable, runInAction } from "mobx"
 
 import { Api } from "src/api"
+import { IUser } from "src/api/Auth/types"
 import { toastAxiosError } from "src/utils"
 export class AuthStore {
+  user: IUser | null = null
+
   constructor() {
     makeAutoObservable(this)
   }
@@ -25,8 +28,12 @@ export class AuthStore {
     }
   }
 
-  checkAuth = () => {
-    //
+  checkAuth = async () => {
+    const { data } = await Api.Auth.getOwnUser()
+
+    runInAction(() => {
+      this.user = data
+    })
   }
 
   logOut = () => {
