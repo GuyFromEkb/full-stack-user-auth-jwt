@@ -8,10 +8,11 @@ export interface AuthRequest<T = {}> extends Request {
   body: T & userAuthData;
 }
 
+export interface IJwtUserPayload {
+  email: string;
+  id: string;
+  isActivated: boolean;
+}
 interface userAuthData {
-  authUserData: {
-    email: string;
-    id: string;
-    isActivated: boolean;
-  };
+  authUserData: IJwtUserPayload;
 }

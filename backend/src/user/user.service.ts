@@ -8,6 +8,24 @@ import { UserDto } from 'src/user/dto/userDto';
 import { userModel } from 'src/user/user.model';
 
 export class UserService {
+  refresh = async (refreshToken?: string) => {
+    if (!refreshToken) {
+      throw HTTPError.unAuthorized();
+    }
+
+    const userPayload = tokenService.validateRefreshToken(refreshToken);
+    const tokenFromDb = await tokenService.findRefreshToken(refreshToken);
+
+    if (!userPayload || !tokenFromDb) {
+      throw HTTPError.unAuthorized();
+    }
+
+    const token = tokenService.generateTokens(userPayload);
+    await tokenService.saveToken(userPayload.id, token.refreshToken);
+
+    return { token };
+  };
+
   logout = async (refreshToken?: string) => {
     if (!refreshToken) {
       throw HTTPError.badRequest('refreshToken в cookies  не найден');
@@ -98,7 +116,6 @@ export class UserService {
   };
 
   getUserById = async (id: string) => {
-    console.log('ZAWEL');
     const user = await userModel.findById(id);
     console.log('userFind', user);
     if (!user) {

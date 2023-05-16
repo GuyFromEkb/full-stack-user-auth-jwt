@@ -46,8 +46,33 @@ export class UserController extends BaseController {
         middleWares: [userAuthorized],
         func: this.sendUserByToken,
       },
+      {
+        path: '/refreshAccess',
+        method: 'get',
+        func: this.refreshAccess,
+      },
     ]);
   }
+
+  refreshAccess = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { refreshToken } = req.cookies as { refreshToken?: string };
+
+      console.log('refreshToken', refreshToken);
+
+      const { token } = await this.userService.refresh(refreshToken);
+
+      res.cookie('refreshToken', token.refreshToken, {
+        httpOnly: true,
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        // maxAge: 30 * 24 * 60 * 60 * 1000,
+      });
+
+      this.ok(res, { accessToken: token.accessToken });
+    } catch (error) {
+      next(error);
+    }
+  };
 
   sendUserByToken = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
