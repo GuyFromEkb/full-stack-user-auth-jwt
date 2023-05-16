@@ -7,4 +7,12 @@ export class ApiAuth {
   postRegistration = (body: { email: string; password: string }) => {
     return this.api.post<IAuthResponse>("/user/registration", body)
   }
+
+  postLogin = (body: { email: string; password: string }) => {
+    return this.api.post<IAuthResponse>("/user/login", body)
+  }
+
+  getLogout = () => {
+    return this.api.get("/user/logout")
+  }
 }

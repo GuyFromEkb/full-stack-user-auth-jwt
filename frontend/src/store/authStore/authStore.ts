@@ -1,24 +1,27 @@
-import { isAxiosError } from "axios"
 import { makeAutoObservable } from "mobx"
-import { enqueueSnackbar } from "notistack"
-import { Api } from "src/api"
 
+import { Api } from "src/api"
+import { toastAxiosError } from "src/utils"
 export class AuthStore {
   constructor() {
     makeAutoObservable(this)
   }
 
-  login = (email: string, pasword: string) => {
-    //
+  login = async (email: string, password: string) => {
+    try {
+      const { data } = await Api.Auth.postLogin({ email, password })
+      localStorage.setItem("accessToken", data.token.accessToken)
+    } catch (error) {
+      toastAxiosError(error)
+    }
   }
 
   registration = async (email: string, password: string) => {
     try {
-      return await Api.Auth.postRegistration({ email, password })
+      const { data } = await Api.Auth.postRegistration({ email, password })
+      localStorage.setItem("accessToken", data.token.accessToken)
     } catch (error) {
-      if (isAxiosError<{ message: string; error?: unknown[] }>(error) && error.response) {
-        enqueueSnackbar(error.response.data.message, { variant: "error" })
-      }
+      toastAxiosError(error)
     }
   }
 
