@@ -38,7 +38,7 @@ export const AuthForm: FC<IAuthFormProps> = observer(({ onSubmit, isRegisterForm
         label="Email"
         variant="outlined"
         {...register("email", {
-          required: true,
+          required: { value: true, message: "Обязательно к заполнению" },
           pattern: {
             value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
             message: "Введите корректный email",
@@ -51,7 +51,7 @@ export const AuthForm: FC<IAuthFormProps> = observer(({ onSubmit, isRegisterForm
         label="Password"
         variant="outlined"
         {...register("password", {
-          required: true,
+          required: { value: true, message: "Обязательно к заполнению" },
           minLength: { value: 6, message: "Минимальная длинна пароля 6 символов" },
         })}
       />

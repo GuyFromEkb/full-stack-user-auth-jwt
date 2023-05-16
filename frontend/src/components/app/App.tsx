@@ -8,7 +8,7 @@ export const App: FC = observer(() => {
     <SnackbarProvider
       maxSnack={3}
       anchorOrigin={{ horizontal: "right", vertical: "top" }}
-      autoHideDuration={5000}
+      autoHideDuration={4000}
     >
       <MainLayout>
         <Outlet />
