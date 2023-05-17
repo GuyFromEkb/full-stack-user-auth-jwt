@@ -4,6 +4,7 @@ import { MainLayout } from "@components/layout/mainLayout/MainLayout"
 import { Outlet } from "react-router-dom"
 import { SnackbarProvider } from "notistack"
 import { appStore } from "src/store/rootStore"
+
 export const App: FC = observer(() => {
   useEffect(() => {
     appStore.auth.checkAuth()

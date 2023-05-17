@@ -1,10 +1,13 @@
 import axios from "axios"
+import { Api } from "src/api"
 
 const baseUrl = "http://localhost:7777/"
 
 export const axiosInstance = axios.create({
   baseURL: baseUrl,
   headers: { "Content-Type": "application/json" },
+
+  // withCredentials: true,
 })
 
 axiosInstance.interceptors.request.use((config) => {
@@ -17,12 +20,17 @@ axiosInstance.interceptors.request.use((config) => {
 })
 
 axiosInstance.interceptors.response.use(
-  (response) => {
-    return response
-  },
-  (error) => {
-    if (error.request.status === 401) {
-      console.log("Поймал 401")
+  (config) => config,
+  async (error) => {
+    const config = error.config
+
+    if (error.response.status === 401 && !config._isRetry) {
+      config._isRetry = true
+
+      const { data } = await Api.Auth.getRefresh()
+      localStorage.setItem("accessToken", data.accessToken)
+
+      return axiosInstance.request(config)
     }
   }
 )

@@ -1,4 +1,4 @@
-import { AxiosInstance } from "axios"
+import { AxiosInstance, AxiosResponse } from "axios"
 import { IAuthResponse, IUser } from "src/api/Auth/types"
 
 export class ApiAuth {
@@ -18,5 +18,12 @@ export class ApiAuth {
 
   getLogout = () => {
     return this.api.get("/user/logout")
+  }
+
+  getRefresh = (): Promise<AxiosResponse<{ accessToken: string }>> => {
+    return this.api.get("/user/refreshAccess", {
+      //@ts-ignore
+      _isRetry: true,
+    })
   }
 }
