@@ -3,11 +3,15 @@ import { Container } from "@mui/material"
 import { observer } from "mobx-react-lite"
 
 import { FC, useCallback } from "react"
+import { useNavigate } from "react-router-dom"
 import { appStore } from "src/store/rootStore"
 
 export const RegistrationPage: FC = observer(() => {
+  const navigate = useNavigate()
+
   const handleRegistration: IAuthFormProps["onSubmit"] = useCallback(async (formData) => {
-    await appStore.auth.registration(formData.email, formData.password)
+    const res = await appStore.auth.registration(formData.email, formData.password)
+    if (res) navigate("/")
   }, [])
 
   return (

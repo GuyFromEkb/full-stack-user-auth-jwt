@@ -12,7 +12,7 @@ export const App: FC = observer(() => {
     appStore.auth.checkAuth()
   }, [])
 
-  if (appStore.auth.isLoading || !appStore.auth.isInitApp) return <Loader />
+  if (!appStore.auth.isAppInit && appStore.auth.isLoading) return <Loader />
 
   return (
     <SnackbarProvider

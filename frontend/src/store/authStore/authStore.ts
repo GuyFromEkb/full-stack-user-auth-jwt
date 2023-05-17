@@ -6,7 +6,7 @@ import { toastAxiosError } from "src/utils"
 export class AuthStore {
   user: IUser | null = null
   isLoading = false
-  isInitApp = false
+  isAppInit = false
 
   constructor() {
     makeAutoObservable(this)
@@ -28,7 +28,7 @@ export class AuthStore {
     } finally {
       runInAction(() => {
         this.isLoading = false
-        this.isInitApp = true
+        this.isAppInit = true
       })
     }
   }
@@ -38,19 +38,20 @@ export class AuthStore {
     try {
       const { data } = await Api.Auth.postRegistration({ email, password })
       localStorage.setItem("accessToken", data.token.accessToken)
+      return data
     } catch (error) {
       toastAxiosError(error)
     } finally {
       runInAction(() => {
         this.isLoading = false
-        this.isInitApp = true
+        this.isAppInit = true
       })
     }
   }
 
   checkAuth = async () => {
     if (!localStorage.getItem("accessToken")) {
-      this.isInitApp = true
+      this.isAppInit = true
       return
     }
 
@@ -66,12 +67,21 @@ export class AuthStore {
     } finally {
       runInAction(() => {
         this.isLoading = false
-        this.isInitApp = true
+        this.isAppInit = true
       })
     }
   }
 
-  logOut = () => {
-    //
+  logOut = async () => {
+    this.isLoading = true
+    try {
+      await Api.Auth.getLogout()
+    } finally {
+      localStorage.removeItem("accessToken")
+      runInAction(() => {
+        this.isLoading = false
+        this.user = null
+      })
+    }
   }
 }

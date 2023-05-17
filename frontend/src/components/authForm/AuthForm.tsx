@@ -1,8 +1,10 @@
+import { LoadingButton } from "@mui/lab"
 import { Box, TextField, Button, Typography, Link } from "@mui/material"
 import { observer } from "mobx-react-lite"
 import { FC } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { Link as ReactRouterLink } from "react-router-dom"
+import { appStore } from "src/store/rootStore"
 
 interface IAuthFormValues {
   email: string
@@ -55,9 +57,15 @@ export const AuthForm: FC<IAuthFormProps> = observer(({ onSubmit, isRegisterForm
           minLength: { value: 6, message: "Минимальная длинна пароля 6 символов" },
         })}
       />
-      <Button variant="outlined" type="submit">
+
+      <LoadingButton
+        loading={appStore.auth.isLoading}
+        loadingPosition="end"
+        variant="outlined"
+        type="submit"
+      >
         {isRegisterForm ? "Зарегистрироваться" : "Войти"}
-      </Button>
+      </LoadingButton>
       {!isRegisterForm && (
         <Typography
           fontSize={12}

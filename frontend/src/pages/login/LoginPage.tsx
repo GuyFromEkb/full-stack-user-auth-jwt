@@ -14,12 +14,8 @@ export const LoginPage: FC = observer(() => {
     if (res) navigate("/")
   }, [])
 
-  const test = () => {
-    axiosInstance.get("user/test")
-  }
   return (
     <Container maxWidth="sm">
-      <Button onClick={test}> test</Button>
       <AuthForm onSubmit={handleLogin} />
     </Container>
   )
