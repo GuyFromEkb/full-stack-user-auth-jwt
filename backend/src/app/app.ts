@@ -25,7 +25,12 @@ export class App {
   useMiddleware = () => {
     this.app.use(json());
     this.app.use(cookieParser());
-    this.app.use(cors());
+    this.app.use(
+      cors({
+        origin: true,
+        credentials: true,
+      })
+    );
   };
 
   useRoutes = () => {

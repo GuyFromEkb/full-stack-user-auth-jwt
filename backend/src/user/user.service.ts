@@ -20,7 +20,11 @@ export class UserService {
       throw HTTPError.unAuthorized();
     }
 
-    const token = tokenService.generateTokens(userPayload);
+    const token = tokenService.generateTokens({
+      email: userPayload.email,
+      id: userPayload.id,
+      isActivated: userPayload.isActivated,
+    });
     await tokenService.saveToken(userPayload.id, token.refreshToken);
 
     return { token };

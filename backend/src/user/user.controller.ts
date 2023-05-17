@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { BaseController } from '@common/BaseController';
+import { logger } from '@common/Logger';
 import { userAuthorized } from '@common/middleWares';
 import { AuthRequest, RequestBody } from '@common/types';
 import { requestValidate } from '@common/utils';
@@ -51,21 +52,37 @@ export class UserController extends BaseController {
         method: 'get',
         func: this.refreshAccess,
       },
+      {
+        path: '/test',
+        method: 'get',
+        func: this.test,
+      },
     ]);
   }
+
+  test = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      logger.info(req.cookies);
+      this.ok(res, 'vseOK');
+    } catch (error) {
+      next(error);
+    }
+  };
 
   refreshAccess = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { refreshToken } = req.cookies as { refreshToken?: string };
 
-      console.log('refreshToken', refreshToken);
+      console.log('refreshToken do', refreshToken);
 
       const { token } = await this.userService.refresh(refreshToken);
+      console.log('TOKEN pose refresh', token);
 
       res.cookie('refreshToken', token.refreshToken, {
         httpOnly: true,
         maxAge: 30 * 24 * 60 * 60 * 1000,
-        // maxAge: 30 * 24 * 60 * 60 * 1000,
+        sameSite: 'none',
+        secure: true,
       });
 
       this.ok(res, { accessToken: token.accessToken });
@@ -91,6 +108,8 @@ export class UserController extends BaseController {
       res.cookie('refreshToken', result?.token.refreshToken, {
         httpOnly: true,
         maxAge: 30 * 24 * 60 * 60 * 1000,
+        sameSite: 'none',
+        secure: true,
       });
 
       this.ok(res, result);
@@ -122,6 +141,8 @@ export class UserController extends BaseController {
       res.cookie('refreshToken', result?.token.refreshToken, {
         httpOnly: true,
         maxAge: 30 * 24 * 60 * 60 * 1000,
+        sameSite: 'none',
+        secure: true,
       });
 
       this.ok(res, result);
