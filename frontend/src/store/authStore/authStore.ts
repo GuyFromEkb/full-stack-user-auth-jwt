@@ -16,7 +16,13 @@ export class AuthStore {
     this.isLoading = true
     try {
       const { data } = await Api.Auth.postLogin({ email, password })
+
       localStorage.setItem("accessToken", data.token.accessToken)
+      runInAction(() => {
+        this.user = data.user
+      })
+
+      return data
     } catch (error) {
       toastAxiosError(error)
     } finally {
