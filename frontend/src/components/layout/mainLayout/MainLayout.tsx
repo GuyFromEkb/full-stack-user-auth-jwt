@@ -1,11 +1,11 @@
-import { Box, AppBar, Toolbar, Typography, Button, Container, TextField, Link } from "@mui/material"
+import { Box, AppBar, Toolbar, Typography, Button, Container } from "@mui/material"
 import { observer } from "mobx-react-lite"
 import { FC, ReactNode } from "react"
 
 export const MainLayout: FC<{ children: ReactNode }> = observer(({ children }) => {
   return (
-    <div>
-      <Box sx={{ flexGrow: 1 }}>
+    <Box>
+      <Box component={"header"} sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -15,7 +15,14 @@ export const MainLayout: FC<{ children: ReactNode }> = observer(({ children }) =
           </Toolbar>
         </AppBar>
       </Box>
-      {children}
-    </div>
+      <Container
+        sx={{
+          pt: 3,
+        }}
+        component={"main"}
+      >
+        {children}
+      </Container>
+    </Box>
   )
 })
