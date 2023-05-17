@@ -31,6 +31,14 @@ export class App {
         credentials: true,
       })
     );
+    this.app.use(async (req, res, next) => {
+      await new Promise((r) => {
+        setTimeout(() => {
+          r(true);
+        }, 550);
+      });
+      next();
+    });
   };
 
   useRoutes = () => {
