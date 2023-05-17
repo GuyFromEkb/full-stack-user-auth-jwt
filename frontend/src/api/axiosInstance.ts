@@ -6,8 +6,7 @@ const baseUrl = "http://localhost:7777/"
 export const axiosInstance = axios.create({
   baseURL: baseUrl,
   headers: { "Content-Type": "application/json" },
-
-  // withCredentials: true,
+  withCredentials: true,
 })
 
 axiosInstance.interceptors.request.use((config) => {
