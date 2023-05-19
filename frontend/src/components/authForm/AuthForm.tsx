@@ -61,6 +61,7 @@ export const AuthForm: FC<IAuthFormProps> = observer(({ onSubmit, isRegisterForm
       <LoadingButton
         loading={appStore.auth.isLoading}
         loadingPosition="end"
+        endIcon={<></>}
         variant="outlined"
         type="submit"
       >
