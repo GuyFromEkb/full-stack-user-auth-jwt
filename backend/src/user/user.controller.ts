@@ -6,9 +6,18 @@ import { userAuthorized } from '@common/middleWares';
 import { AuthRequest, RequestBody } from '@common/types';
 import { requestValidate } from '@common/utils';
 import { configService } from '@config/config.service';
+import { UserDto } from 'src/user/dto/userDto';
 import { UserRegisterReqBody } from 'src/user/types';
+import { userModel } from 'src/user/user.model';
 import { UserService } from 'src/user/user.service';
 import { userBodyValidation } from 'src/user/validation';
+
+/**
+ * @swagger
+ * tags:
+ *   name: User
+ *   description: Авторизация пользователя
+ */
 
 export class UserController extends BaseController {
   private userService: UserService;
@@ -60,10 +69,28 @@ export class UserController extends BaseController {
     ]);
   }
 
+  /**
+   * @swagger
+   * /user/test:
+   *   get:
+   *     summary: возвращает всех зарегистрированных пользователей
+   *     tags: [User]
+   *     responses:
+   *       200:
+   *         description: Массив пользователей
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 $ref: '#/components/schemas/User'
+   */
   test = async (req: Request, res: Response, next: NextFunction) => {
     try {
       logger.info(req.cookies);
-      this.ok(res, 'vseOK');
+
+      const all = (await userModel.find()).map((item) => new UserDto(item));
+      this.ok(res, all);
     } catch (error) {
       next(error);
     }
@@ -73,10 +100,7 @@ export class UserController extends BaseController {
     try {
       const { refreshToken } = req.cookies as { refreshToken?: string };
 
-      console.log('refreshToken do', refreshToken);
-
       const { token } = await this.userService.refresh(refreshToken);
-      console.log('TOKEN pose refresh', token);
 
       res.cookie('refreshToken', token.refreshToken, {
         httpOnly: true,

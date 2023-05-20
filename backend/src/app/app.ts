@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import { logger } from '@common/Logger';
 import { configService } from '@config/config.service';
 import { AppControllers, AppFilters } from 'src/app/types';
+import { swaggerClient } from 'src/swagger';
 
 export class App {
   app: Express;
@@ -31,6 +32,7 @@ export class App {
         credentials: true,
       })
     );
+
     this.app.use(async (req, res, next) => {
       await new Promise((r) => {
         setTimeout(() => {
@@ -39,6 +41,10 @@ export class App {
       });
       next();
     });
+  };
+
+  useSwagger = () => {
+    this.app.use(swaggerClient.url, swaggerClient.serve, swaggerClient.setup);
   };
 
   useRoutes = () => {
@@ -57,6 +63,7 @@ export class App {
       this.useMiddleware();
       this.useRoutes();
       this.useExceptionFilter();
+      this.useSwagger();
       this.server = this.app.listen(this.port);
       logger.info(`Сервер запущен на http://localhost:${this.port}`);
     } catch (error) {
