@@ -70,24 +70,6 @@ export class UserController extends BaseController {
     ]);
   }
 
-  /**
-   * @swagger
-   * /user/test:
-   *   get:
-   *     security:
-   *       - bearerAuth: []
-   *     summary: возвращает всех зарегистрированных пользователей
-   *     tags: [User]
-   *     responses:
-   *       200:
-   *         description: Массив пользователей
-   *         content:
-   *           application/json:
-   *             schema:
-   *               type: array
-   *               items:
-   *                 $ref: '#/components/schemas/User'
-   */
   test = async (req: Request, res: Response, next: NextFunction) => {
     try {
       logger.info(req.cookies);
@@ -139,7 +121,14 @@ export class UserController extends BaseController {
         secure: true,
       });
 
-      this.ok(res, result);
+      const response = {
+        user: result.user,
+        token: {
+          accessToken: result.token.accessToken,
+        },
+      };
+
+      this.ok(res, response);
     } catch (error) {
       next(error);
     }
@@ -172,7 +161,14 @@ export class UserController extends BaseController {
         secure: true,
       });
 
-      this.ok(res, result);
+      const response = {
+        user: result.user,
+        token: {
+          accessToken: result.token.accessToken,
+        },
+      };
+
+      this.ok(res, response);
     } catch (error) {
       next(error);
     }
