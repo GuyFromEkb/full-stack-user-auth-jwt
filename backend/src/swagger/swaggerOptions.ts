@@ -1,5 +1,4 @@
 import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
 
 import { swaggerUserSchema } from 'src/user/user.model';
 import { userDoc } from 'src/user/user.swagger';
@@ -50,10 +49,4 @@ const options: swaggerJSDoc.Options = {
   apis: ['src/**/*.ts'],
 };
 
-const specification = swaggerJSDoc(options);
-
-export const swaggerClient = {
-  url: '/api-docs',
-  serve: swaggerUi.serve,
-  setup: swaggerUi.setup(specification),
-};
+export const swaggerSpecification = swaggerJSDoc(options);

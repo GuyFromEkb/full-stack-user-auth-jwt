@@ -33,10 +33,10 @@ export class App {
       })
     );
 
-    this.app.use(async (req, res, next) => {
+    this.app.use(async (_req, _res, next) => {
       await new Promise((r) => {
         setTimeout(() => {
-          r(true);
+          r('');
         }, 550);
       });
       next();
