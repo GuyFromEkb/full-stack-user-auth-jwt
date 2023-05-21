@@ -64,6 +64,7 @@ export class UserController extends BaseController {
       {
         path: '/test',
         method: 'get',
+        middleWares: [userAuthorized],
         func: this.test,
       },
     ]);
@@ -73,6 +74,8 @@ export class UserController extends BaseController {
    * @swagger
    * /user/test:
    *   get:
+   *     security:
+   *       - bearerAuth: []
    *     summary: возвращает всех зарегистрированных пользователей
    *     tags: [User]
    *     responses:
