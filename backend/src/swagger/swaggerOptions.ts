@@ -1,5 +1,6 @@
 import swaggerJSDoc from 'swagger-jsdoc';
 
+import { configService } from '@config/config.service';
 import { swaggerUserSchema } from 'src/user/user.model';
 import { userDoc } from 'src/user/user.swagger';
 
@@ -13,7 +14,7 @@ const options: swaggerJSDoc.Options = {
     },
     servers: [
       {
-        url: `http://localhost:7777/`,
+        url: `http://localhost:${configService.env.SERVER_PORT}`,
       },
     ],
     components: {
