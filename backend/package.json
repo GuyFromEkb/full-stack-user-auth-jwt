@@ -5,7 +5,9 @@
   "main": "src/main.ts",
   "scripts": {
     "dev": "nodemon",
-    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json"
+    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
+    "copy-env": "xcopy /s /y \"src\\.env*\" \"dist\\\"",
+    "build-with-env": "npm run build & npm run copy-env"
   },
   "author": "GuyFromEkb",
   "license": "ISC",

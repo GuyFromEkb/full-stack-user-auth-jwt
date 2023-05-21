@@ -1,3 +1,4 @@
+import { resolve } from 'path';
 import { EnvType, load } from 'ts-dotenv';
 
 import { logger } from '@common/Logger';
@@ -18,7 +19,9 @@ class ConfigService {
 
   constructor() {
     try {
-      this.config = load(schema);
+      this.config = load(schema, {
+        path: resolve(__dirname, '.env'),
+      });
       logger.info('[ConfigService] Конфигурация .env загружена');
     } catch (error) {
       logger.error('[ConfigService] Не удалось прочитать файл .env или он отсутствует');
