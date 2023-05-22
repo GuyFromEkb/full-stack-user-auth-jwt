@@ -1,3 +1,4 @@
+/** Тест, возможность создание схем из под  mongoose lib*/
 export const idChangeMongoToSwagger = (m2sItem: any) => {
   m2sItem.required.push('id');
   m2sItem.properties.id = { type: 'string' };

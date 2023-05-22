@@ -9,13 +9,6 @@ import { UserRegisterReqBody } from 'src/user/types';
 import { UserService } from 'src/user/user.service';
 import { userBodyValidation } from 'src/user/validation';
 
-/**
- * @swagger
- * tags:
- *   name: User
- *   description: Авторизация пользователя
- */
-
 export class UserController extends BaseController {
   private userService: UserService;
 

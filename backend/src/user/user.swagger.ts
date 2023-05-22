@@ -189,6 +189,10 @@ const getLogout = {
 };
 
 export const userDoc = {
+  tag: {
+    name: 'User',
+    description: 'Авторизация пользователя',
+  },
   schemas: { responseUser, responseToken, authUserBody, responseBaseUserBody },
   paths: {
     '/user/login': {

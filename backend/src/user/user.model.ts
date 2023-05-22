@@ -13,6 +13,7 @@ const userSchema = new Schema<IUser>({
 
 export const userModel = model<IUser>('User', userSchema);
 
+/** Тест, возможность создание схем из под  mongoose lib*/
 export const swaggerUserSchema = {
   User: idChangeMongoToSwagger(m2s(userModel, { omitFields: ['_id', 'activateLink', 'password'] })),
 };

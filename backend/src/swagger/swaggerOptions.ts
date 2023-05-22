@@ -3,6 +3,7 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import { configService } from '@config/config.service';
 import { swaggerUserSchema } from 'src/user/user.model';
 import { userDoc } from 'src/user/user.swagger';
+import { usersDoc } from 'src/users/users.swagger';
 
 const options: swaggerJSDoc.Options = {
   definition: {
@@ -37,7 +38,9 @@ const options: swaggerJSDoc.Options = {
     },
     paths: {
       ...userDoc.paths,
+      ...usersDoc.paths,
     },
+    tags: [userDoc.tag, usersDoc.tag],
     security: [
       {
         bearerAuth: [],
