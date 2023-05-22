@@ -8,6 +8,7 @@ import { logger } from '@common/Logger';
 import { configService } from '@config/config.service';
 import { AppControllers, AppFilters } from 'src/app/types';
 import { swaggerClient } from 'src/swagger';
+import { swaggerSpecification } from 'src/swagger/swaggerOptions';
 
 export class App {
   app: Express;
@@ -45,6 +46,10 @@ export class App {
 
   useSwagger = () => {
     this.app.use(swaggerClient.url, swaggerClient.serve, swaggerClient.setup);
+    this.app.get('/swagger.json', (_req, res) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(swaggerSpecification);
+    });
   };
 
   useRoutes = () => {
