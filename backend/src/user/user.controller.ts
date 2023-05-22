@@ -1,14 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { BaseController } from '@common/BaseController';
-import { logger } from '@common/Logger';
 import { userAuthorized } from '@common/middleWares';
 import { AuthRequest, RequestBody } from '@common/types';
 import { requestValidate } from '@common/utils';
 import { configService } from '@config/config.service';
-import { UserDto } from 'src/user/dto/userDto';
 import { UserRegisterReqBody } from 'src/user/types';
-import { userModel } from 'src/user/user.model';
 import { UserService } from 'src/user/user.service';
 import { userBodyValidation } from 'src/user/validation';
 
@@ -61,25 +58,8 @@ export class UserController extends BaseController {
         method: 'get',
         func: this.refreshAccess,
       },
-      {
-        path: '/test',
-        method: 'get',
-        middleWares: [userAuthorized],
-        func: this.test,
-      },
     ]);
   }
-
-  test = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      logger.info(req.cookies);
-
-      const all = (await userModel.find()).map((item) => new UserDto(item));
-      this.ok(res, all);
-    } catch (error) {
-      next(error);
-    }
-  };
 
   refreshAccess = async (req: Request, res: Response, next: NextFunction) => {
     try {

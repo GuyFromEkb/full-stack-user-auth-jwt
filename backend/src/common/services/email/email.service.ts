@@ -36,7 +36,10 @@ class EmailServices {
       html: `<a href="${configService.env.SERVER_URL}/user/activate/${link}">Подтвердить регистрацию</a>`,
     });
 
-    logger.info('Email Preview URL: %s', getTestMessageUrl(info));
+    logger.info(
+      'Можно посмотреть как выглядит email, который отправленный для подтверждения регистрации: %s',
+      getTestMessageUrl(info)
+    );
   };
 }
 

@@ -15,6 +15,11 @@ const responseBaseUserBody = {
       description: 'is user Activated',
       example: false,
     },
+    activateLink: {
+      type: 'string',
+      description: 'ссылка для активации пользователя',
+      example: 'http://localhost:7777/user/activate/ac8cbcd6-1dfb-4e24-851b-544444f88b8e',
+    },
   },
   required: ['email', 'id', 'isActivated'],
 };

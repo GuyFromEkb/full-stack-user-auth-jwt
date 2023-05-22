@@ -55,11 +55,7 @@ export class UserService {
       throw HTTPError.badRequest('Неверный пароль');
     }
 
-    const userDto = new UserDto({
-      _id: String(existedUser._id),
-      email: existedUser.email,
-      isActivate: existedUser.isActivate,
-    });
+    const userDto = new UserDto(existedUser);
 
     const token = tokenService.generateTokens(userDto);
 
@@ -87,7 +83,7 @@ export class UserService {
 
     await emailServices.sendActivateLink(email, activateLink);
 
-    const userDto = new UserDto({ _id: String(user._id), email: user.email, isActivate: user.isActivate });
+    const userDto = new UserDto(user);
 
     const token = tokenService.generateTokens(userDto);
 
@@ -114,18 +110,18 @@ export class UserService {
       throw HTTPError.badRequest('Пользователя с данной ссылкой активации не обнаружен');
     }
 
-    const userDto = new UserDto({ _id: String(user._id), email: user.email, isActivate: user.isActivate });
+    const userDto = new UserDto(user);
 
     return userDto;
   };
 
   getUserById = async (id: string) => {
     const user = await userModel.findById(id);
-    console.log('userFind', user);
+
     if (!user) {
       throw HTTPError.badRequest('Пользователя с данным id не обнаружен ');
     }
-    const userDto = new UserDto({ _id: String(user._id), email: user.email, isActivate: user.isActivate });
+    const userDto = new UserDto(user);
 
     return userDto;
   };
