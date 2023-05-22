@@ -9,7 +9,7 @@ const options: swaggerJSDoc.Options = {
   definition: {
     openapi: '3.0.0',
     externalDocs: {
-      description: 'swagger.json',
+      description: `${configService.env.SERVER_URL}/swagger/v1/doc/swagger.json`,
       url: `${configService.env.SERVER_URL}/swagger/v1/doc/swagger.json`,
     },
     info: {
