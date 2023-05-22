@@ -14,7 +14,7 @@ const options: swaggerJSDoc.Options = {
     },
     servers: [
       {
-        url: `http://localhost:${configService.env.SERVER_PORT}`,
+        url: configService.env.SERVER_URL,
       },
     ],
     components: {

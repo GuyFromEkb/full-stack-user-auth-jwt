@@ -65,7 +65,8 @@ export class App {
       this.useExceptionFilter();
       this.useSwagger();
       this.server = this.app.listen(this.port);
-      logger.info(`Сервер запущен на http://localhost:${this.port}`);
+      logger.info(`Сервер запущен на ${configService.env.SERVER_URL}`);
+      logger.info(`Swagger запущен на ${configService.env.SERVER_URL}/api-docs`);
     } catch (error) {
       logger.error('При инициализации сервера, произошла ошибка');
       logger.error(error);
