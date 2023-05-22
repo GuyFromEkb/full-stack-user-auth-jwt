@@ -46,7 +46,7 @@ export class App {
 
   useSwagger = () => {
     this.app.use(swaggerClient.url, swaggerClient.serve, swaggerClient.setup);
-    this.app.get('/swagger.json', (_req, res) => {
+    this.app.get('/swagger/v1/doc/swagger.json', (_req, res) => {
       res.setHeader('Content-Type', 'application/json');
       res.send(swaggerSpecification);
     });

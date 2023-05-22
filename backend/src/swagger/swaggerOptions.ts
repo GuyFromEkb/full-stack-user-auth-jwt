@@ -8,6 +8,10 @@ import { usersDoc } from 'src/users/users.swagger';
 const options: swaggerJSDoc.Options = {
   definition: {
     openapi: '3.0.0',
+    externalDocs: {
+      description: 'swagger.json',
+      url: `${configService.env.SERVER_URL}/swagger/v1/doc/swagger.json`,
+    },
     info: {
       title: 'JWT AUTH USER',
       version: '1.0.0',
