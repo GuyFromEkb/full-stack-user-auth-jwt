@@ -1,9 +1,8 @@
 import { AuthForm, IAuthFormProps } from "@components/authForm/AuthForm"
-import { Container, Button } from "@mui/material"
+import { Container } from "@mui/material"
 import { observer } from "mobx-react-lite"
 import { FC, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
-import { axiosInstance } from "src/api/axiosInstance"
 import { appStore } from "src/store/rootStore"
 
 export const LoginPage: FC = observer(() => {

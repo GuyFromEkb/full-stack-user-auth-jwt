@@ -1,7 +1,7 @@
 import axios from "axios"
-import { Api } from "src/api"
+import { API } from "src/api"
 
-const baseUrl = "http://localhost:7777/"
+export const baseUrl = "http://localhost:7777"
 
 export const axiosInstance = axios.create({
   baseURL: baseUrl,
@@ -26,7 +26,7 @@ axiosInstance.interceptors.response.use(
     if (error.response.status === 401 && !config._isRetry) {
       config._isRetry = true
 
-      const { data } = await Api.Auth.getRefresh()
+      const { data } = await API.User.refreshAccess()
       localStorage.setItem("accessToken", data.accessToken)
 
       return axiosInstance.request(config)

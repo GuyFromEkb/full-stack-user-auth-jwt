@@ -1,10 +1,11 @@
 import { makeAutoObservable, runInAction } from "mobx"
-import { Api } from "src/api"
-import { IUser } from "src/api/Auth/types"
+
+import { API } from "src/api"
+import { ResponseBaseUserBody } from "src/api/swaggerGenerateApi"
 import { toastAxiosError } from "src/utils"
 
 export class AuthStore {
-  user: IUser | null = null
+  user: ResponseBaseUserBody | null = null
   isLoading = false
   isAppInit = false
 
@@ -15,14 +16,15 @@ export class AuthStore {
   login = async (email: string, password: string) => {
     this.isLoading = true
     try {
-      const { data } = await Api.Auth.postLogin({ email, password })
+      const { data } = await API.User.loginUser({ email, password })
 
       localStorage.setItem("accessToken", data.token.accessToken)
+
       runInAction(() => {
         this.user = data.user
       })
 
-      return data
+      return data.user
     } catch (error) {
       toastAxiosError(error)
     } finally {
@@ -36,9 +38,15 @@ export class AuthStore {
   registration = async (email: string, password: string) => {
     this.isLoading = true
     try {
-      const { data } = await Api.Auth.postRegistration({ email, password })
+      const { data } = await API.User.registerUser({ email, password })
+
       localStorage.setItem("accessToken", data.token.accessToken)
-      return data
+
+      runInAction(() => {
+        this.user = data.user
+      })
+
+      return data.user
     } catch (error) {
       toastAxiosError(error)
     } finally {
@@ -57,10 +65,10 @@ export class AuthStore {
 
     this.isLoading = true
     try {
-      const { data } = await Api.Auth.getOwnUser()
+      const { data } = await API.User.getOwnUser()
 
       runInAction(() => {
-        this.user = data
+        this.user = data.user
       })
     } catch (error) {
       toastAxiosError(error)
@@ -75,7 +83,7 @@ export class AuthStore {
   logOut = async () => {
     this.isLoading = true
     try {
-      await Api.Auth.getLogout()
+      await API.User.logout()
     } finally {
       localStorage.removeItem("accessToken")
       runInAction(() => {

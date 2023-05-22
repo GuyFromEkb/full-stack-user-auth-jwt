@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "api:update": "npx @openapitools/openapi-generator-cli generate -i http://localhost:7777/swagger.json -g typescript-axios -o src/api/swaggerGenerateApi/ --skip-validate-spec --additional-properties=supportsES6=true,withInterfaces=true"
   },
   "dependencies": {
     "@mui/icons-material": "^5.11.16",
