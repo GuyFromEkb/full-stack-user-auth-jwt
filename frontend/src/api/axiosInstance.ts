@@ -26,7 +26,11 @@ axiosInstance.interceptors.response.use(
     if (error.response.status === 401 && !config._isRetry) {
       config._isRetry = true
 
-      const { data } = await API.User.refreshAccess()
+      const { data } = await API.User.refreshAccess({
+        //@ts-ignore
+        _isRetry: true,
+      })
+
       localStorage.setItem("accessToken", data.accessToken)
 
       return axiosInstance.request(config)
