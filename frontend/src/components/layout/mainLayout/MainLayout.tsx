@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom"
 import { appStore } from "src/store/rootStore"
 import LoadingButton from "@mui/lab/LoadingButton"
 import LogoutIcon from "@mui/icons-material/Logout"
+import { Link as ReactRouterLink } from "react-router-dom"
 
 export const MainLayout: FC<{ children: ReactNode }> = observer(({ children }) => {
   const navigate = useNavigate()
@@ -19,7 +20,7 @@ export const MainLayout: FC<{ children: ReactNode }> = observer(({ children }) =
       <Box component={"header"} sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Typography component={ReactRouterLink} variant="h6" to={"/"} sx={{ flexGrow: 1 }}>
               JWT Auth FullStack App
             </Typography>
             {appStore.auth.user && (
