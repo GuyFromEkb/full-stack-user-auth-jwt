@@ -139,7 +139,7 @@ const getGetOwnUser = {
       content: {
         'application/json': {
           schema: {
-            $ref: '#/components/schemas/responseUser',
+            $ref: '#/components/schemas/responseBaseUserBody',
           },
         },
       },
