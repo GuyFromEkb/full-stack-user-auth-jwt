@@ -11,7 +11,7 @@ export const MainLayout: FC<{ children: ReactNode }> = observer(({ children }) =
 
   const handleLogOut = useCallback(async () => {
     await appStore.auth.logOut()
-    navigate("/login")
+    navigate("/")
   }, [])
 
   return (

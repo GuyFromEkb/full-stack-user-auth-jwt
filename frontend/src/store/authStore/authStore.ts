@@ -68,8 +68,9 @@ export class AuthStore {
       const { data } = await API.User.getOwnUser()
 
       runInAction(() => {
-        this.user = data.user
+        this.user = data
       })
+      console.log(' data.user', data.user)
     } catch (error) {
       toastAxiosError(error)
     } finally {

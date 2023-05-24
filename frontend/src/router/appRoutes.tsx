@@ -1,24 +1,27 @@
-import { createBrowserRouter } from "react-router-dom"
+import { RouteObject } from "react-router-dom"
 import { ErrorPage } from "src/pages/error/ErrorPage"
 import { LoginPage } from "src/pages/login/LoginPage"
 import { HomePage } from "src/pages/home/HomePage"
 import { RegistrationPage } from "src/pages/registration/RegistrationPage"
 import { RootPage } from "src/pages/root/rootPage"
-import { ProtectedRoute } from "@components/protectedRoute"
 
-export const router = createBrowserRouter([
+export type CustomRoutObj = Omit<RouteObject, "children"> & {
+  isNeedAuth?: boolean
+  isFirstChildrenIndexTrue?: boolean
+} & {
+  children?: CustomRoutObj[]
+}
+
+export const routeTree: CustomRoutObj[] = [
   {
     path: "/",
     element: <RootPage />,
     errorElement: <ErrorPage />,
+    isFirstChildrenIndexTrue: true,
     children: [
       {
-        index: true,
-        element: (
-          <ProtectedRoute>
-            <HomePage />
-          </ProtectedRoute>
-        ),
+        element: <HomePage />,
+        isNeedAuth: true,
       },
       {
         path: "/login",
@@ -30,4 +33,4 @@ export const router = createBrowserRouter([
       },
     ],
   },
-])
+]

@@ -1,16 +1,22 @@
-import { FC, useEffect } from "react"
+import { FC, useEffect, useMemo } from "react"
 import { observer } from "mobx-react-lite"
 
-import { RouterProvider } from "react-router-dom"
+import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import { SnackbarProvider } from "notistack"
 import { appStore } from "src/store/rootStore"
-import { router } from "src/router/appRoutes"
+import { routeTree } from "src/router/appRoutes"
 import { Loader } from "@components/loader"
+import { filterRouteTree } from "src/utils/filterRoutTree/filterRoutTree"
 
 export const App: FC = observer(() => {
   useEffect(() => {
     appStore.auth.checkAuth()
   }, [])
+
+  const router = useMemo(
+    () => createBrowserRouter(filterRouteTree(routeTree, !!appStore.auth.user)),
+    [appStore.auth.user]
+  )
 
   if (!appStore.auth.isAppInit && appStore.auth.isLoading) return <Loader />
 
