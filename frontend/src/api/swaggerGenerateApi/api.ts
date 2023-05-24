@@ -335,7 +335,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getOwnUser(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseUser>> {
+        async getOwnUser(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseBaseUserBody>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getOwnUser(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -397,7 +397,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOwnUser(options?: any): AxiosPromise<ResponseUser> {
+        getOwnUser(options?: any): AxiosPromise<ResponseBaseUserBody> {
             return localVarFp.getOwnUser(options).then((request) => request(axios, basePath));
         },
         /**
@@ -454,7 +454,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    getOwnUser(options?: AxiosRequestConfig): AxiosPromise<ResponseUser>;
+    getOwnUser(options?: AxiosRequestConfig): AxiosPromise<ResponseBaseUserBody>;
 
     /**
      * LoginUser

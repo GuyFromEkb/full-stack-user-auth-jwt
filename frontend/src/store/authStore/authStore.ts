@@ -70,7 +70,6 @@ export class AuthStore {
       runInAction(() => {
         this.user = data
       })
-      console.log(' data.user', data.user)
     } catch (error) {
       toastAxiosError(error)
     } finally {
